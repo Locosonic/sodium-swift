@@ -33,9 +33,21 @@ open class Listener : NSObject, ListenerType
             r.release()
         }
     }
-    
+
     open func unlisten() {
         self._unlisten()
+    }
+
+    /**
+     * Combine listeners into one so that invoking {@link unlisten()} on the returned
+     * listener will unlisten both the inputs.
+     */
+    public func append(_ two: Listener) {
+        let one = self
+        Listener(unlisten: {
+            one.unlisten()
+            two.unlisten()
+        })
     }
 }
 
