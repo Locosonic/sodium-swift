@@ -6,7 +6,7 @@ open class Listener : NSObject, ListenerType
 {
     fileprivate let _unlisten: Block
     fileprivate let refs: MemReferences?
-    
+
     /**
      Creates a listener which runs the specified action when it is disposed.
      - Parameter unlisten: The action to run when this listener should stop listening.
@@ -18,6 +18,14 @@ open class Listener : NSObject, ListenerType
         if let r = self.refs {
             r.addRef()
         }
+    }
+
+    /**
+     Creates a listener which runs the specified action when it is disposed.
+     - Parameter unlisten: The action to run when this listener should stop listening.
+    */
+    public convenience init(unlisten: @escaping () -> Void) {
+        self.init(unlisten: unlisten, refs: nil)
     }
 
     deinit {
